@@ -1,26 +1,28 @@
-import User from '../models/user.model.js';
+import User from "../models/user.model.js";
 
 // Create and Save a new User
 export function create(req, res) {
   // Validate request
   if (!req.body.name) {
     return res.status(400).send({
-      message: 'User can not be empty',
+      message: "User can not be empty",
     });
   }
 
   // Create a user
   const user = new User({
-    name: req.body.name || 'Unknown user',
+    name: req.body.name || "Unknown user",
   });
 
   // Save User in the database
-  user.save()
+  user
+    .save()
     .then((data) => {
       res.send(data);
-    }).catch((err) => {
+    })
+    .catch((err) => {
       res.status(500).send({
-        message: err.message || 'Some error occurred while creating user.',
+        message: err.message || "Some error occurred while creating user.",
       });
     });
 }
@@ -30,9 +32,10 @@ export function findAll(req, res) {
   User.find()
     .then((users) => {
       res.send(users);
-    }).catch((err) => {
+    })
+    .catch((err) => {
       res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving users.',
+        message: err.message || "Some error occurred while retrieving users.",
       });
     });
 }
@@ -47,8 +50,9 @@ export function findOne(req, res) {
         });
       }
       res.send(user);
-    }).catch((err) => {
-      if (err.kind === 'ObjectId') {
+    })
+    .catch((err) => {
+      if (err.kind === "ObjectId") {
         return res.status(404).send({
           message: `User not found with id ${req.params.userId}`,
         });
@@ -64,14 +68,18 @@ export function update(req, res) {
   // Validate Request
   if (!req.body.name) {
     return res.status(400).send({
-      message: 'User content can not be empty',
+      message: "User content can not be empty",
     });
   }
 
   // Find user and update it with the request body
-  User.findByIdAndUpdate(req.params.userId, {
-    name: req.body.name.trim() || 'Unknown User',
-  }, { new: true })
+  User.findByIdAndUpdate(
+    req.params.userId,
+    {
+      name: req.body.name.trim() || "Unknown User",
+    },
+    { new: true }
+  )
     .then((user) => {
       if (!user) {
         return res.status(404).send({
@@ -79,8 +87,9 @@ export function update(req, res) {
         });
       }
       res.send(user);
-    }).catch((err) => {
-      if (err.kind === 'ObjectId') {
+    })
+    .catch((err) => {
+      if (err.kind === "ObjectId") {
         return res.status(404).send({
           message: `User not found with id ${req.params.userId}`,
         });
@@ -100,9 +109,10 @@ export function remove(req, res) {
           message: `User not found with id ${req.params.userId}`,
         });
       }
-      res.send({ message: 'user deleted successfully!' });
-    }).catch((err) => {
-      if (err.kind === 'ObjectId' || err.name === 'NotFound') {
+      res.send({ message: "user deleted successfully!" });
+    })
+    .catch((err) => {
+      if (err.kind === "ObjectId" || err.name === "NotFound") {
         return res.status(404).send({
           message: `user not found with id ${req.params.userId}`,
         });
@@ -111,17 +121,18 @@ export function remove(req, res) {
         message: `Could not delete user with id ${req.params.userId}`,
       });
     });
-};
+}
 
 export function listUserUI(req, res) {
   User.find()
     .then((users) => {
-      res.render('index-users', {
+      res.render("index-users", {
         // users
       });
-    }).catch((err) => {
+    })
+    .catch((err) => {
       res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving users.',
+        message: err.message || "Some error occurred while retrieving users.",
       });
     });
 }
@@ -129,12 +140,13 @@ export function listUserUI(req, res) {
 export function editUserUI(req, res) {
   User.findById(req.params.userId)
     .then((user) => {
-      res.render('edit-user', {
+      res.render("edit-user", {
         // user
       });
-    }).catch((err) => {
+    })
+    .catch((err) => {
       res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving users.',
+        message: err.message || "Some error occurred while retrieving users.",
       });
     });
 }

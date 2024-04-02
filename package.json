@@ -19,10 +19,10 @@
     "Mongoose",
     "Todo"
   ],
-  "engines": { 
-    "node": "16.x" 
+  "engines": {
+    "node": "16.x"
   },
-  "author": "Santiago Bernal",
+  "author": "Guillermo Morales",
   "license": "MIT",
   "dependencies": {
     "bl": "^6.0.2",
